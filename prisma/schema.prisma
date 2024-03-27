@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./new_database.db"
+}
+
+model Student {
+  student_id    Int          @id @default(autoincrement())
+  name          String
+  email         String
+  date_of_birth DateTime     // Keep as DateTime
+  enrollments   Enrollment[]
+}
+
+
+
+model Course {
+  course_id   Int          @id @default(autoincrement())
+  title       String
+  description String
+  instructor  String
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  enrollment_id   Int      @id @default(autoincrement())
+  student_id      Int
+  course_id       Int
+  enrollment_date DateTime
+  grade           String?
+  course          Course   @relation(fields: [course_id], references: [course_id])
+  student         Student  @relation(fields: [student_id], references: [student_id])
+}

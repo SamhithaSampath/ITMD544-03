@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Operations</title>
+    <style>
+        /* Paste the CSS code here */
+        /* Styles for the form */
+        .form-container {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="date"],
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Styles for the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Styles for buttons */
+        .button-container {
+            margin-bottom: 20px;
+        }
+
+        .button-container button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .button-container button:hover {
+            background-color: #0077A3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Management</h1>
+
+    <!-- Student Form -->
+    <h2>Create Student</h2>
+    <form id="studentForm" class="form-container">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="dateOfBirth">Date of Birth:</label>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+        <button type="submit">Create Student</button>
+    </form>
+
+    <!-- Course Form -->
+    <h2>Create Course</h2>
+    <form id="courseForm" class="form-container">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+        <label for="instructor">Instructor:</label>
+        <input type="text" id="instructor" name="instructor" required>
+        <button type="submit">Create Course</button>
+    </form>
+
+    <!-- Enrollment Form -->
+    
+    <h2>Create Enrollment</h2>
+    <form id="enrollmentForm" class="form-container">
+        <label for="studentId">Student ID:</label>
+        <input type="number" id="studentId" name="studentId" required>
+        <label for="courseId">Course ID:</label>
+        <input type="number" id="courseId" name="courseId" required> <!-- Add courseId input field -->
+        <label for="enrollmentDate">Enrollment Date:</label>
+        <input type="date" id="enrollmentDate" name="enrollmentDate" required>
+        <label for="grade">Grade:</label>
+        <input type="text" id="grade" name="grade">
+        <button type="submit">Create Enrollment</button>
+    </form>
+    <!-- Student List -->
+<h2>Students</h2>
+<div id="studentList">
+    <!-- Each student row should have the class 'student-row' -->
+    <div class="student-row">
+        <!-- Individual student data goes here -->
+    </div>
+    <!-- More student rows can be added dynamically -->
+</div>
+
+<!-- Course List -->
+<h2>Courses</h2>
+<div id="courseList">
+    <!-- Each course row should have the class 'course-row' -->
+    <div class="course-row">
+        <!-- Individual course data goes here -->
+    </div>
+    <!-- More course rows can be added dynamically -->
+</div>
+
+<!-- Enrollment List -->
+<h2>Enrollments</h2>
+<div id="enrollmentList">
+    <!-- Each enrollment row should have the class 'enrollment-row' -->
+    <div class="enrollment-row">
+        <!-- Individual enrollment data goes here -->
+    </div>
+    <!-- More enrollment rows can be added dynamically -->
+</div>
+
+    
+
+    <script src="script.js"></script>
+
+</body>
+</html>
