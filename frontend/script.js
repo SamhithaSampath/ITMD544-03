@@ -1,12 +1,10 @@
 // JavaScript for CRUD operations
 
 document.addEventListener("DOMContentLoaded", function() {
-    const baseURL = 'https://itmd544-03.onrender.com/api'; // Update this with the actual URL of your backend API
-
     // Function to create a new student
     const createStudent = async (formData) => {
         try {
-            const response = await fetch(`${baseURL}/students`, {
+            const response = await fetch('https://itmd544-03.onrender.com/api/students', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to create a new course
     const createCourse = async (formData) => {
         try {
-            const response = await fetch(`${baseURL}/courses`, {
+            const response = await fetch('https://itmd544-03.onrender.com/api/courses', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -40,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to create a new enrollment
     const createEnrollment = async (formData) => {
         try {
-            const response = await fetch(`${baseURL}/enrollments`, {
+            const response = await fetch('https://itmd544-03.onrender.com/api/enrollments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -111,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to fetch all students and display them
     const fetchAndDisplayStudents = async () => {
         try {
-            const response = await fetch(`${baseURL}/students`);
+            const response = await fetch('https://itmd544-03.onrender.com/api/students');
             const data = await response.json();
             console.log('All students:', data);
             displayStudents(data); // Call function to display students
@@ -125,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to fetch a single student by ID
     const fetchStudentById = async (studentId) => {
         try {
-            const response = await fetch(`${baseURL}/students/${studentId}`);
+            const response = await fetch(`https://itmd544-03.onrender.com/api/students/${studentId}`);
             const data = await response.json();
             console.log('Student by ID:', data);
         } catch (error) {
@@ -150,18 +148,19 @@ document.addEventListener("DOMContentLoaded", function() {
     
             console.log('Formatted date of birth:', formattedDateOfBirth);
     
-            const updatedStudent = await prisma.student.update({
-                where: {
-                    student_id: studentId
+            const response = await fetch(`https://itmd544-03.onrender.com/api/students/${studentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                data: {
+                body: JSON.stringify({
                     name: name,
                     email: email,
-                    date_of_birth: formattedDateOfBirth
-                }
+                    dateOfBirth: formattedDateOfBirth
+                }),
             });
-    
-            console.log('Updated student:', updatedStudent);
+            const data = await response.json();
+            console.log('Updated student:', data);
         } catch (error) {
             console.error('Error updating student:', error);
         }
@@ -172,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to delete a student
     const deleteStudent = async (studentId) => {
         try {
-            const response = await fetch(`${baseURL}/students/${studentId}`, {
+            const response = await fetch(`https://itmd544-03.onrender.com/api/students/${studentId}`, {
                 method: 'DELETE',
             });
             console.log('Student deleted:', response.status);
@@ -185,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to fetch all courses and display them
     const fetchAndDisplayCourses = async () => {
         try {
-            const response = await fetch(`${baseURL}/courses`);
+            const response = await fetch('https://itmd544-03.onrender.com/api/courses');
             const data = await response.json();
             console.log('All courses:', data);
             displayCourses(data); // Call function to display courses
@@ -199,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to fetch a single course by ID
     const fetchCourseById = async (courseId) => {
         try {
-            const response = await fetch(`${baseURL}/courses/${courseId}`);
+            const response = await fetch(`https://itmd544-03.onrender.com/api/courses/${courseId}`);
             const data = await response.json();
             console.log('Course by ID:', data);
         } catch (error) {
@@ -210,105 +209,112 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to update a course
     const updateCourse = async (courseId, formData) => {
         try {
-            const response = await fetch(`${baseURL}/courses/${courseId}`, {
+            const response = await fetch(`https://itmd544-03.onrender.com/api/courses/${courseId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                           },
-            body: JSON.stringify(formData),
-        });
-        const data = await response.json();
-        console.log('Updated course:', data);
-    } catch (error) {
-        console.error('Error updating course:', error);
-    }
-};
-
-// Function to delete a course
-const deleteCourse = async (courseId) => {
-    try {
-        const response = await fetch(`${baseURL}/courses/${courseId}`, {
-            method: 'DELETE',
-        });
-        console.log('Course deleted:', response.status);
-    } catch (error) {
-        console.error('Error deleting course:', error);
-    }
-};
-
-// Function to fetch all enrollments and display them
-const fetchAndDisplayEnrollments = async () => {
-    try {
-        const response = await fetch(`${baseURL}/enrollments`);
-        const data = await response.json();
-        console.log('All enrollments:', data);
-        displayEnrollments(data); // Call function to display enrollments
-    } catch (error) {
-        console.error('Error fetching enrollments:', error);
-    }
-};
-
-fetchAndDisplayEnrollments(); // Call the function to fetch and display enrollments
-
-// Function to fetch a single enrollment by ID
-const fetchEnrollmentById = async (enrollmentId) => {
-    try {
-        const response = await fetch(`${baseURL}/enrollments/${enrollmentId}`);
-        const data = await response.json();
-        console.log('Enrollment by ID:', data);
-    } catch (error) {
-        console.error('Error fetching enrollment by ID:', error);
-    }
-};
-
-// Function to update an enrollment
-const updateEnrollment = async (enrollmentId, formData) => {
-    try {
-        const { studentId, courseId, enrollmentDate, grade } = formData;
-        console.log('Enrollment Date:', enrollmentDate); // Add this line for debugging
-
-        // Validate if enrollmentDate is a valid date
-        if (!Date.parse(enrollmentDate)) {
-            throw new Error('Invalid date format for enrollment date');
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json();
+            console.log('Updated course:', data);
+        } catch (error) {
+            console.error('Error updating course:', error);
         }
+    };
 
-        // Format enrollmentDate as YYYY-MM-DD
-        const formattedEnrollmentDate = new Date(enrollmentDate).toISOString().split('T')[0];
+    // Function to delete a course
+    const deleteCourse = async (courseId) => {
+        try {
+            const response = await fetch(`https://itmd544-03.onrender.com/api/courses/${courseId}`, {
+                method: 'DELETE',
+            });
+            console.log('Course deleted:', response.status);
+        } catch (error) {
+            console.error('Error deleting course:', error);
+        }
+    };
 
-        console.log('Formatted enrollment date:', formattedEnrollmentDate);
+    // Function to fetch all enrollments and display them
+    const fetchAndDisplayEnrollments = async () => {
+        try {
+            const response = await fetch('https://itmd544-03.onrender.com/api/enrollments');
+            const data = await response.json();
+            console.log('All enrollments:', data);
+            displayEnrollments(data); // Call function to display enrollments
+        } catch (error) {
+            console.error('Error fetching enrollments:', error);
+        }
+    };
 
-        const response = await fetch(`${baseURL}/enrollments/${enrollmentId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                studentId: studentId,
-                courseId: courseId,
-                enrollmentDate: formattedEnrollmentDate,
-                grade: grade
-            }),
-        });
-        const data = await response.json();
-        console.log('Updated enrollment:', data);
-    } catch (error) {
-        console.error('Error updating enrollment:', error);
-    }
-};
+    fetchAndDisplayEnrollments(); // Call the function to fetch and display enrollments
 
-// Function to delete an enrollment
-const deleteEnrollment = async (enrollmentId) => {
-    try {
-        const response = await fetch(`${baseURL}/enrollments/${enrollmentId}`, {
-            method: 'DELETE',
-        });
-        console.log('Enrollment deleted:', response.status);
-    } catch (error) {
-        console.error('Error deleting enrollment:', error);
-    }
-};
+    // Function to fetch a single enrollment by ID
+    const fetchEnrollmentById = async (enrollmentId) => {
+        try {
+            const response = await fetch(`https://itmd544-03.onrender.com/api/enrollments/${enrollmentId}`);
+            const data = await response.json();
+            console.log('Enrollment by ID:', data);
+        } catch (error) {
+            console.error('Error fetching enrollment by ID:', error);
+        }
+    };
 
-// Function to create buttons for update and delete operations
+    // Function to update an enrollment
+    const updateEnrollment = async (enrollmentId, formData) => {
+        try {
+            const { studentId, courseId, enrollmentDate, grade } = formData;
+            console.log('Enrollment Date:', enrollmentDate); // Add this line for debugging
+    
+            // Validate if enrollmentDate is a valid date
+            if (!Date.parse(enrollmentDate)) {
+                throw new Error('Invalid date format for enrollment date');
+            }
+    
+            // Format enrollmentDate as YYYY-MM-DD
+            const formattedEnrollmentDate = new Date(enrollmentDate).toISOString().split('T')[0];
+    
+            console.log('Formatted enrollment date:', formattedEnrollmentDate);
+    
+            const response = await fetch(`https://itmd544-03.onrender.com/api/enrollments/${enrollmentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    studentId: studentId,
+                    courseId: courseId,
+                    enrollmentDate: formattedEnrollmentDate,
+                    grade: grade
+                }),
+            });
+            const data = await response.json();
+            console.log('Updated enrollment:', data);
+        } catch (error) {
+            console.error('Error updating enrollment:', error);
+        }
+    };
+
+    // Function to delete an enrollment
+    const deleteEnrollment = async (enrollmentId) => {
+        try {
+            const response = await fetch(`https://itmd544-03.onrender.com/api/enrollments/${enrollmentId}`, {
+                method: 'DELETE',
+            });
+            console.log('Enrollment deleted:', response.status);
+        } catch (error) {
+            console.error('Error deleting enrollment:', error);
+        }
+    };
+
+    // Function to create buttons for update and delete operations
+    //const createButtons = (id, type) => {
+    //    const updateButton = `<button onclick="update${type}(${id})">Update</button>`;
+    //    const deleteButton = `<button onclick="delete${type}(${id})">Delete</button>`;
+    //    return `${updateButton} ${deleteButton}`;
+    //};
+
+    // Function to create buttons for update and delete operations
 const createButtons = (id, type) => {
     const updateButton = `<button class="update-btn" data-id="${id}" data-type="${type}">Update</button>`;
     const deleteButton = `<button class="delete-btn" data-id="${id}" data-type="${type}">Delete</button>`;
@@ -357,95 +363,85 @@ const addButtonsListeners = () => {
     
     document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', async (event) => {
-            console.log('Delete button clicked');
+            console.log('Delete button clicked'); // Add this line for debugging
             const id = event.target.dataset.id;
-           const type = event.target.dataset.type;
-
-                if (confirm('Are you sure you want to delete this record?')) {
-                    if (type === 'Student') {
-                        await deleteStudent(id);
-                    } else if (type === 'Course') {
-                        await deleteCourse(id);
-                    } else if (type === 'Enrollment') {
-                        await deleteEnrollment(id);
-                    }
-
-                    fetchAndDisplayStudents();
-                    fetchAndDisplayCourses();
-                    fetchAndDisplayEnrollments();
-                }
-            });
+            const type = event.target.dataset.type;
+            console.log('ID:', id, 'Type:', type); // Add this line for debugging
+            if (type === 'Student') {
+                // Call the function to delete student
+                await deleteStudent(id);
+            } else if (type === 'Course') {
+                // Call the function to delete course
+                await deleteCourse(id);
+            } else if (type === 'Enrollment') {
+                // Call the function to delete enrollment
+                await deleteEnrollment(id);
+            }
+            // After deleting, re-fetch and display the data
+            fetchAndDisplayStudents();
+            fetchAndDisplayCourses();
+            fetchAndDisplayEnrollments();
         });
-    };
+    });
+};
 
-    addButtonsListeners(); // Call the function to add event listeners for update and delete buttons
+// Call the function to add event listeners for buttons
+addButtonsListeners();
 
-    // Function to display students in the HTML table
-    const displayStudents = (students) => {
-        const tableBody = document.getElementById('studentsTableBody');
-        tableBody.innerHTML = ''; // Clear table body before rendering
 
-        students.forEach(student => {
-            const row = document.createElement('tr');
-            row.classList.add('student-row');
 
-            // Populate table cells with student data
-            row.innerHTML = `
-                <td>${student.id}</td>
-                <td><input type="text" class="name-input" value="${student.name}" /></td>
-                <td><input type="text" class="email-input" value="${student.email}" /></td>
-                <td><input type="date" class="dateOfBirth-input" value="${new Date(student.dateOfBirth).toISOString().split('T')[0]}" /></td>
-                <td>${createButtons(student.id, 'Student')}</td>
-            `;
 
-            tableBody.appendChild(row);
-        });
-    };
+// Function to display students on the UI
+const displayStudents = (students) => {
+    const studentList = document.getElementById('studentList');
+    studentList.innerHTML = ''; // Clear existing content
+    students.forEach(student => {
+        const studentItem = document.createElement('div');
+        studentItem.textContent = `ID: ${student.student_id}, Name: ${student.name}, Email: ${student.email}, Date of Birth: ${student.date_of_birth}`;
+        
+        // Create buttons for update and delete operations
+        const buttons = createButtons(student.student_id, 'Student'); // Create buttons
+        studentItem.innerHTML += buttons; // Append buttons to student item
 
-    // Function to display courses in the HTML table
-    const displayCourses = (courses) => {
-        const tableBody = document.getElementById('coursesTableBody');
-        tableBody.innerHTML = ''; // Clear table body before rendering
+        studentList.appendChild(studentItem);
+    });
+    addButtonsListeners();
+};
 
-        courses.forEach(course => {
-            const row = document.createElement('tr');
-            row.classList.add('course-row');
+// Function to display courses on the UI
+const displayCourses = (courses) => {
+    const courseList = document.getElementById('courseList');
+    courseList.innerHTML = ''; // Clear existing content
+    courses.forEach(course => {
+        const courseItem = document.createElement('div');
+        courseItem.textContent = `ID: ${course.course_id}, Title: ${course.title}, Description: ${course.description}, Instructor: ${course.instructor}`;
+        
+        // Create buttons for update and delete operations
+        const buttons = createButtons(course.course_id, 'Course'); // Create buttons
+        courseItem.innerHTML += buttons; // Append buttons to course item
 
-            // Populate table cells with course data
-            row.innerHTML = `
-                <td>${course.id}</td>
-                <td><input type="text" class="title-input" value="${course.title}" /></td>
-                <td><input type="text" class="description-input" value="${course.description}" /></td>
-                <td><input type="text" class="instructor-input" value="${course.instructor}" /></td>
-                <td>${createButtons(course.id, 'Course')}</td>
-            `;
+        courseList.appendChild(courseItem);
+    });
+    addButtonsListeners();
+};
 
-            tableBody.appendChild(row);
-        });
-    };
+// Function to display enrollments on the UI
+const displayEnrollments = (enrollments) => {
+    const enrollmentList = document.getElementById('enrollmentList');
+    enrollmentList.innerHTML = ''; // Clear existing content
+    enrollments.forEach(enrollment => {
+        const enrollmentItem = document.createElement('div');
+        enrollmentItem.textContent = `ID: ${enrollment.enrollment_id}, Student ID: ${enrollment.student_id}, Course ID: ${enrollment.course_id}, Enrollment Date: ${enrollment.enrollment_date}, Grade: ${enrollment.grade}`;
+        
+        // Create buttons for update and delete operations
+        const buttons = createButtons(enrollment.enrollment_id, 'Enrollment'); // Create buttons
+        enrollmentItem.innerHTML += buttons; // Append buttons to enrollment item
 
-    // Function to display enrollments in the HTML table
-    const displayEnrollments = (enrollments) => {
-        const tableBody = document.getElementById('enrollmentsTableBody');
-        tableBody.innerHTML = ''; // Clear table body before rendering
+        enrollmentList.appendChild(enrollmentItem);
+    });
+    addButtonsListeners();
+};
 
-        enrollments.forEach(enrollment => {
-            const row = document.createElement('tr');
-            row.classList.add('enrollment-row');
-
-            // Populate table cells with enrollment data
-            row.innerHTML = `
-                <td>${enrollment.id}</td>
-                <td><input type="text" class="studentId-input" value="${enrollment.studentId}" /></td>
-                <td><input type="text" class="courseId-input" value="${enrollment.courseId}" /></td>
-                <td><input type="date" class="enrollmentDate-input" value="${new Date(enrollment.enrollmentDate).toISOString().split('T')[0]}" /></td>
-                <td><input type="text" class="grade-input" value="${enrollment.grade}" /></td>
-                <td>${createButtons(enrollment.id, 'Enrollment')}</td>
-            `;
-
-            tableBody.appendChild(row);
-        });
-    };
 });
 
 
