@@ -118,39 +118,58 @@
         <input type="text" id="grade" name="grade">
         <button type="submit">Create Enrollment</button>
     </form>
-    <!-- Student List -->
-<h2>Students</h2>
-<div id="studentList">
-    <!-- Each student row should have the class 'student-row' -->
-    <div class="student-row">
-        <!-- Individual student data goes here -->
-    </div>
-    <!-- More student rows can be added dynamically -->
-</div>
-
-<!-- Course List -->
-<h2>Courses</h2>
-<div id="courseList">
-    <!-- Each course row should have the class 'course-row' -->
-    <div class="course-row">
-        <!-- Individual course data goes here -->
-    </div>
-    <!-- More course rows can be added dynamically -->
-</div>
-
-<!-- Enrollment List -->
-<h2>Enrollments</h2>
-<div id="enrollmentList">
-    <!-- Each enrollment row should have the class 'enrollment-row' -->
-    <div class="enrollment-row">
-        <!-- Individual enrollment data goes here -->
-    </div>
-    <!-- More enrollment rows can be added dynamically -->
-</div>
-
-    
-
-    <script src="script.js"></script>
-
-</body>
-</html>
+     <!-- Student List -->
+     <h2>Students</h2>
+     <table>
+         <thead>
+             <tr>
+                 <th>ID</th>
+                 <th>Name</th>
+                 <th>Email</th>
+                 <th>Date of Birth</th>
+                 <th>Actions</th>
+             </tr>
+         </thead>
+         <tbody id="studentsTableBody">
+             <!-- Student rows will be dynamically added here -->
+         </tbody>
+     </table>
+ 
+     <!-- Course List -->
+     <h2>Courses</h2>
+     <table>
+         <thead>
+             <tr>
+                 <th>ID</th>
+                 <th>Title</th>
+                 <th>Description</th>
+                 <th>Instructor</th>
+                 <th>Actions</th>
+             </tr>
+         </thead>
+         <tbody id="coursesTableBody">
+             <!-- Course rows will be dynamically added here -->
+         </tbody>
+     </table>
+ 
+     <!-- Enrollment List -->
+     <h2>Enrollments</h2>
+     <table>
+         <thead>
+             <tr>
+                 <th>ID</th>
+                 <th>Student ID</th>
+                 <th>Course ID</th>
+                 <th>Enrollment Date</th>
+                 <th>Grade</th>
+                 <th>Actions</th>
+             </tr>
+         </thead>
+         <tbody id="enrollmentsTableBody">
+             <!-- Enrollment rows will be dynamically added here -->
+         </tbody>
+     </table>
+ 
+     <script src="script.js"></script>
+ </body>
+ </html>
