@@ -2,7 +2,7 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-type Student {
+  type Student {
     student_id: Int!
     name: String!
     email: String!
@@ -28,6 +28,9 @@ type Student {
     students: [Student!]!
     courses: [Course!]!
     enrollments: [Enrollment!]!
+    studentById(student_id: Int!): Student
+    courseById(course_id: Int!): Course
+    enrollmentById(enrollment_id: Int!): Enrollment
   }
 
   type Mutation {

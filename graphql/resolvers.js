@@ -1,7 +1,7 @@
 // graphql/resolvers.js
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-// Define resolver functions
+
 const resolvers = {
   Query: {
     students: async () => {
@@ -12,6 +12,21 @@ const resolvers = {
     },
     enrollments: async () => {
       return await prisma.enrollment.findMany();
+    },
+    studentById: async (_, { student_id }) => {
+      return await prisma.student.findUnique({
+        where: { student_id },
+      });
+    },
+    courseById: async (_, { course_id }) => {
+      return await prisma.course.findUnique({
+        where: { course_id },
+      });
+    },
+    enrollmentById: async (_, { enrollment_id }) => {
+      return await prisma.enrollment.findUnique({
+        where: { enrollment_id },
+      });
     },
   },
   Mutation: {
@@ -67,5 +82,8 @@ const resolvers = {
       return true;
     },
   },
-};                                                                                                                                                                                                                       
-module.exports = resolvers;                                                                                                                                                                                                                     module.exports = resolvers;                                                                                                                                                                                                                      module.exports = resolvers;
+};
+
+module.exports = resolvers;
+
+                                                                                                                                                                                                                  module.exports = resolvers;                                                                                                                                                                                                                      module.exports = resolvers;
